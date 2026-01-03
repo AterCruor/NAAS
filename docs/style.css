@@ -37,12 +37,9 @@ body {
   background: var(--card);
   border-radius: 28px;
   padding: 36px;
-  padding-bottom: 0;
   box-shadow: 0 20px 60px var(--shadow);
   border: 2px solid rgba(30, 26, 23, 0.08);
   animation: rise 0.7s ease-out;
-  display: flex;
-  flex-direction: column;
 }
 
 .eyebrow {
@@ -222,11 +219,10 @@ body {
 }
 
 .footer-links {
-  margin-top: auto;
+  margin-top: 14px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 18px;
 }
 
 .powered a {

@@ -8,7 +8,6 @@ const sharePageButton = document.getElementById("share-page");
 const typeSelect = document.getElementById("filter-type");
 const toneSelect = document.getElementById("filter-tone");
 const topicSelect = document.getElementById("filter-topic");
-const tagInput = document.getElementById("filter-tag");
 const clearFiltersButton = document.getElementById("clear-filters");
 
 let reasons = [];
@@ -27,8 +26,6 @@ const getFilteredReasons = () => {
   const type = typeSelect.value;
   const tone = toneSelect.value;
   const topic = topicSelect.value;
-  const tag = tagInput.value.trim().toLowerCase();
-
   return reasons.filter((entry) => {
     if (type && entry.type !== type) {
       return false;
@@ -37,9 +34,6 @@ const getFilteredReasons = () => {
       return false;
     }
     if (topic && entry.topic !== topic) {
-      return false;
-    }
-    if (tag && !entry.tags.some((t) => t.toLowerCase() === tag)) {
       return false;
     }
     return true;
@@ -235,16 +229,10 @@ topicSelect.addEventListener("change", () => {
   updateMeta();
   pickReason();
 });
-tagInput.addEventListener("input", () => {
-  clearStatus();
-  updateMeta();
-  pickReason();
-});
 clearFiltersButton.addEventListener("click", () => {
   typeSelect.value = "";
   toneSelect.value = "";
   topicSelect.value = "";
-  tagInput.value = "";
   clearStatus();
   updateMeta();
   pickReason();

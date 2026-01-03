@@ -111,6 +111,7 @@ body {
   gap: 12px;
   margin-top: 20px;
   justify-content: center;
+  width: 100%;
 }
 
 .btn {
@@ -143,9 +144,10 @@ body {
 }
 
 .meta {
-  margin-top: 16px;
+  margin: 0 0 12px;
   font-size: 13px;
   color: rgba(30, 26, 23, 0.6);
+  text-align: left;
 }
 
 .status {

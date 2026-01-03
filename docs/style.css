@@ -40,6 +40,8 @@ body {
   box-shadow: 0 20px 60px var(--shadow);
   border: 2px solid rgba(30, 26, 23, 0.08);
   animation: rise 0.7s ease-out;
+  display: flex;
+  flex-direction: column;
 }
 
 .eyebrow {
@@ -199,7 +201,7 @@ body {
 }
 
 .footer-links {
-  margin-top: 18px;
+  margin-top: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;

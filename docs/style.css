@@ -72,19 +72,19 @@ body {
 .filter {
   display: grid;
   gap: 6px;
-  font-size: 12px;
+  font-size: 10px;
   color: rgba(30, 26, 23, 0.7);
 }
 
 .filter select,
 .filter input {
   width: 100%;
-  padding: 8px 10px;
+  padding: 6px 8px;
   border-radius: 10px;
   border: 2px solid rgba(181, 63, 27, 0.35);
   background: rgba(255, 247, 240, 0.9);
   font-family: "Space Grotesk", sans-serif;
-  font-size: 14px;
+  font-size: 11px;
   color: var(--ink);
 }
 
@@ -143,8 +143,8 @@ body {
 }
 
 .btn.small {
-  padding: 8px 14px;
-  font-size: 14px;
+  padding: 6px 12px;
+  font-size: 11px;
   align-self: end;
 }
 

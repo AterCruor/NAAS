@@ -166,10 +166,18 @@ body {
 }
 
 .powered {
-  margin-top: 18px;
-  font-size: 12px;
-  text-align: center;
+  font-size: 10px;
   color: rgba(30, 26, 23, 0.55);
+}
+
+.based-on {
+  margin-top: 18px;
+  text-align: right;
+}
+
+.developed-by {
+  margin-top: 4px;
+  text-align: right;
 }
 
 .powered a {

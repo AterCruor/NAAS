@@ -20,7 +20,11 @@
         <h1 class="title">A polite, playful "no"</h1>
         <p class="subtitle">Tap for a fresh reason anytime.</p>
 
-        <div class="filters">
+        <button class="accordion" id="filter-toggle" aria-expanded="false">
+          Curate your no
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+        <div class="filters" id="filters">
           <label class="filter">
             <span>Type</span>
             <select id="filter-type" class="select-glaze"></select>

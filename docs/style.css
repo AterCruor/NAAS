@@ -63,10 +63,49 @@ body {
 }
 
 .filters {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
+}
+
+.filters.open {
+  display: grid;
+}
+
+.accordion {
+  margin-bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid rgba(181, 63, 27, 0.35);
+  background: rgba(255, 247, 240, 0.9);
+  color: var(--ink);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.accordion:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(229, 90, 42, 0.18);
+}
+
+.accordion-icon {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(30, 26, 23, 0.6);
+  border-bottom: 2px solid rgba(30, 26, 23, 0.6);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+.accordion[aria-expanded="true"] .accordion-icon {
+  transform: rotate(-135deg);
 }
 
 .filter {

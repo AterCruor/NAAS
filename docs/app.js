@@ -9,6 +9,8 @@ const typeSelect = document.getElementById("filter-type");
 const toneSelect = document.getElementById("filter-tone");
 const topicSelect = document.getElementById("filter-topic");
 const clearFiltersButton = document.getElementById("clear-filters");
+const filterToggle = document.getElementById("filter-toggle");
+const filters = document.getElementById("filters");
 
 let reasons = [];
 let reasonById = {};
@@ -236,6 +238,11 @@ clearFiltersButton.addEventListener("click", () => {
   clearStatus();
   updateMeta();
   pickReason();
+});
+
+filterToggle.addEventListener("click", () => {
+  const isOpen = filters.classList.toggle("open");
+  filterToggle.setAttribute("aria-expanded", String(isOpen));
 });
 
 const updateFilters = () => {

@@ -61,6 +61,38 @@ body {
   font-size: 18px;
 }
 
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.filter {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(30, 26, 23, 0.7);
+}
+
+.filter select,
+.filter input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(30, 26, 23, 0.15);
+  background: #fff;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.btn.small {
+  padding: 8px 14px;
+  font-size: 14px;
+  align-self: end;
+}
+
 .reason {
   background: #ffffff;
   border-radius: 20px;

@@ -19,6 +19,26 @@
         <h1 class="title">A polite, playful "no"</h1>
         <p class="subtitle">Tap for a fresh reason anytime.</p>
 
+        <div class="filters">
+          <label class="filter">
+            <span>Type</span>
+            <select id="filter-type"></select>
+          </label>
+          <label class="filter">
+            <span>Tone</span>
+            <select id="filter-tone"></select>
+          </label>
+          <label class="filter">
+            <span>Topic</span>
+            <select id="filter-topic"></select>
+          </label>
+          <label class="filter">
+            <span>Tag</span>
+            <input id="filter-tag" type="text" placeholder="e.g. coffee" />
+          </label>
+          <button class="btn ghost small" id="clear-filters">Clear</button>
+        </div>
+
         <div class="reason" id="reason">
           Loading a reason...
         </div>

@@ -5,6 +5,11 @@ const newButton = document.getElementById("new-reason");
 const copyButton = document.getElementById("copy-reason");
 const shareButton = document.getElementById("share-reason");
 const sharePageButton = document.getElementById("share-page");
+const typeSelect = document.getElementById("filter-type");
+const toneSelect = document.getElementById("filter-tone");
+const topicSelect = document.getElementById("filter-topic");
+const tagInput = document.getElementById("filter-tag");
+const clearFiltersButton = document.getElementById("clear-filters");
 
 let reasons = [];
 let reasonById = {};
@@ -18,13 +23,52 @@ const clearStatus = () => {
   statusEl.textContent = "";
 };
 
+const getFilteredReasons = () => {
+  const type = typeSelect.value;
+  const tone = toneSelect.value;
+  const topic = topicSelect.value;
+  const tag = tagInput.value.trim().toLowerCase();
+
+  return reasons.filter((entry) => {
+    if (type && entry.type !== type) {
+      return false;
+    }
+    if (tone && entry.tone !== tone) {
+      return false;
+    }
+    if (topic && entry.topic !== topic) {
+      return false;
+    }
+    if (tag && !entry.tags.some((t) => t.toLowerCase() === tag)) {
+      return false;
+    }
+    return true;
+  });
+};
+
+const updateMeta = () => {
+  const filtered = getFilteredReasons();
+  if (filtered.length === reasons.length) {
+    metaEl.textContent = `${reasons.length} reasons ready.`;
+    return;
+  }
+  metaEl.textContent = `${reasons.length} reasons ready. ${filtered.length} match filters.`;
+};
+
 const pickReason = () => {
   if (!reasons.length) {
     reasonEl.textContent = "No reasons loaded yet.";
     return;
   }
 
-  const entry = reasons[Math.floor(Math.random() * reasons.length)];
+  const candidates = getFilteredReasons();
+  if (!candidates.length) {
+    currentId = "";
+    reasonEl.textContent = "No reasons match those filters.";
+    return;
+  }
+
+  const entry = candidates[Math.floor(Math.random() * candidates.length)];
   currentId = entry.id || "";
   reasonEl.textContent = entry.reason;
 };
@@ -52,7 +96,8 @@ const loadReasons = async () => {
       acc[entry.id] = entry;
       return acc;
     }, {});
-    metaEl.textContent = `${reasons.length} reasons ready.`;
+    updateFilters();
+    updateMeta();
     if (!applyReasonFromId()) {
       pickReason();
     }
@@ -76,6 +121,7 @@ const loadReasons = async () => {
       },
     ];
     reasonById = {};
+    updateFilters();
     metaEl.textContent = "Offline fallback mode.";
     pickReason();
   }
@@ -174,5 +220,57 @@ copyButton.addEventListener("click", () => {
 });
 shareButton.addEventListener("click", shareReason);
 sharePageButton.addEventListener("click", sharePage);
+typeSelect.addEventListener("change", () => {
+  clearStatus();
+  updateMeta();
+  pickReason();
+});
+toneSelect.addEventListener("change", () => {
+  clearStatus();
+  updateMeta();
+  pickReason();
+});
+topicSelect.addEventListener("change", () => {
+  clearStatus();
+  updateMeta();
+  pickReason();
+});
+tagInput.addEventListener("input", () => {
+  clearStatus();
+  updateMeta();
+  pickReason();
+});
+clearFiltersButton.addEventListener("click", () => {
+  typeSelect.value = "";
+  toneSelect.value = "";
+  topicSelect.value = "";
+  tagInput.value = "";
+  clearStatus();
+  updateMeta();
+  pickReason();
+});
+
+const updateFilters = () => {
+  const unique = (key) =>
+    Array.from(new Set(reasons.map((entry) => entry[key]).filter(Boolean))).sort();
+
+  const setOptions = (select, options) => {
+    select.innerHTML = "";
+    const anyOption = document.createElement("option");
+    anyOption.value = "";
+    anyOption.textContent = "Any";
+    select.appendChild(anyOption);
+    options.forEach((value) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
+    });
+  };
+
+  setOptions(typeSelect, unique("type"));
+  setOptions(toneSelect, unique("tone"));
+  setOptions(topicSelect, unique("topic"));
+};
 
 loadReasons();

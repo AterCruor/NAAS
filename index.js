@@ -25,10 +25,49 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-// Random rejection reason endpoint
+const parseList = (value) =>
+  value
+    ? value
+        .split(",")
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
+
+const pickRandom = (list) => list[Math.floor(Math.random() * list.length)];
+
+// Random rejection reason endpoint (string only)
 app.get('/no', (req, res) => {
-  const reason = reasons[Math.floor(Math.random() * reasons.length)];
-  res.json({ reason });
+  const entry = pickRandom(reasons);
+  res.json({ reason: entry.reason });
+});
+
+// Filtered rejection reason endpoint (string only)
+app.get('/no/rich', (req, res) => {
+  const types = parseList(req.query.type);
+  const tones = parseList(req.query.tone);
+  const topics = parseList(req.query.topic);
+
+  const filtered = reasons.filter((entry) => {
+    if (types.length && !types.includes(entry.type)) {
+      return false;
+    }
+    if (tones.length && !tones.includes(entry.tone)) {
+      return false;
+    }
+    if (topics.length && !topics.includes(entry.topic)) {
+      return false;
+    }
+    return true;
+  });
+
+  if (!filtered.length) {
+    return res.status(404).json({
+      error: "No reasons match the requested filters.",
+    });
+  }
+
+  const entry = pickRandom(filtered);
+  return res.json({ reason: entry.reason });
 });
 
 // Start server

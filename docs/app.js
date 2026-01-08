@@ -9,6 +9,7 @@ const clearFiltersButton = document.getElementById("clear-filters");
 const filterToggle = document.getElementById("filter-toggle");
 const filters = document.getElementById("filters");
 const filterChips = document.getElementById("filter-chips");
+const filterWarning = document.getElementById("filter-warning");
 const shareMenu = document.querySelector(".share-menu");
 const multiSelects = Array.from(document.querySelectorAll(".multi-select"));
 
@@ -101,6 +102,16 @@ const updateChips = () => {
   filterChips.classList.add("show");
 };
 
+const setWarning = (message) => {
+  if (!message) {
+    filterWarning.textContent = "";
+    filterWarning.classList.remove("show");
+    return;
+  }
+  filterWarning.textContent = message;
+  filterWarning.classList.add("show");
+};
+
 const updateMeta = () => {
   const filtered = getFilteredReasons();
   clearFiltersButton.disabled = !hasActiveFilters();
@@ -155,6 +166,61 @@ const updateToggleLabel = (select) => {
   toggle.textContent = values.length === 1 ? values[0] : `${values.length} selected`;
 };
 
+const wouldMatch = (key, value) => {
+  const types = new Set(getSelectedValues("type"));
+  const tones = new Set(getSelectedValues("tone"));
+  const topics = new Set(getSelectedValues("topic"));
+  const tags = new Set(getSelectedValues("tag"));
+
+  if (key === "type") {
+    types.add(value);
+  } else if (key === "tone") {
+    tones.add(value);
+  } else if (key === "topic") {
+    topics.add(value);
+  } else if (key === "tag") {
+    tags.add(value);
+  }
+
+  return reasons.some((entry) => {
+    if (types.size && !types.has(entry.type)) {
+      return false;
+    }
+    if (tones.size && !tones.has(entry.tone)) {
+      return false;
+    }
+    if (topics.size && !topics.has(entry.topic)) {
+      return false;
+    }
+    if (tags.size && !Array.from(tags).some((tag) => entry.tags.includes(tag))) {
+      return false;
+    }
+    return true;
+  });
+};
+
+const updateOptionAvailability = () => {
+  let invalidSelected = false;
+  multiSelects.forEach((select) => {
+    const key = select.dataset.key;
+    select.querySelectorAll(".multi-option").forEach((label) => {
+      const input = label.querySelector("input");
+      const allowed = wouldMatch(key, input.value);
+      input.disabled = !allowed;
+      label.classList.toggle("disabled", !allowed);
+      if (!allowed && input.checked) {
+        invalidSelected = true;
+      }
+    });
+  });
+
+  if (invalidSelected) {
+    setWarning("Some selected filters have no matches. Please adjust.");
+  } else {
+    setWarning("");
+  }
+};
+
 const updateFilters = () => {
   const unique = (key) =>
     Array.from(new Set(reasons.map((entry) => entry[key]).filter(Boolean))).sort();
@@ -180,6 +246,7 @@ const updateFilters = () => {
         updateChips();
         pickReason();
         updateToggleLabel(select);
+        updateOptionAvailability();
       });
       const text = document.createElement("span");
       text.textContent = formatLabel(value);
@@ -195,6 +262,7 @@ const updateFilters = () => {
   buildOptions("tag", tagValues);
 
   multiSelects.forEach(updateToggleLabel);
+  updateOptionAvailability();
 };
 
 const loadReasons = async () => {
@@ -344,6 +412,7 @@ clearFiltersButton.addEventListener("click", () => {
   clearStatus();
   updateMeta();
   updateChips();
+  updateOptionAvailability();
   pickReason();
 });
 

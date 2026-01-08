@@ -89,6 +89,17 @@ body {
   display: flex;
 }
 
+.filter-warning {
+  display: none;
+  margin: 4px 0 10px;
+  font-size: 10px;
+  color: #b53f1b;
+}
+
+.filter-warning.show {
+  display: block;
+}
+
 .chip {
   font-size: 10px;
   padding: 4px 10px;
@@ -208,6 +219,14 @@ body {
   gap: 8px;
   font-size: 11px;
   color: rgba(30, 26, 23, 0.85);
+}
+
+.multi-option.disabled {
+  opacity: 0.5;
+}
+
+.multi-option.disabled input {
+  cursor: not-allowed;
 }
 
 .multi-option input {
